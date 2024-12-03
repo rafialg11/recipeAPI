@@ -20,16 +20,13 @@ func NewRecipeService(repo repository.RecipeRepository) RecipeService {
 }
 
 func (s *recipeService) GetAllRecipes() ([]domain.Recipe, error) {
-	// Add any processing logic or filtering here if needed
 	return s.repo.FetchAll()
 }
 
 func (s *recipeService) GetRecipeByID(id int) (domain.Recipe, error) {
-	// Add any processing logic or validation here if needed
 	return s.repo.FetchByID(id)
 }
 
 func (s *recipeService) CreateRecipe(recipe domain.Recipe) (domain.Recipe, error) {
-	// Add any processing or validation logic here if needed
 	return s.repo.Save(recipe)
 }

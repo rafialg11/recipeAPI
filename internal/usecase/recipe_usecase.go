@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"github.com/rafialg11/recipe-api/internal/domain"
-	"github.com/rafialg11/recipe-api/internal/repository"
+	"github.com/rafialg11/recipe-api/internal/service"
 )
 
 type RecipeUseCase interface {
@@ -12,21 +12,21 @@ type RecipeUseCase interface {
 }
 
 type recipeUseCase struct {
-	recipeRepo repository.RecipeRepository
+	recipeService service.RecipeService
 }
 
-func NewRecipeUseCase(repo repository.RecipeRepository) RecipeUseCase {
-	return &recipeUseCase{recipeRepo: repo}
+func NewRecipeUseCase(service service.RecipeService) RecipeUseCase {
+	return &recipeUseCase{recipeService: service}
 }
 
 func (u *recipeUseCase) GetAllRecipes() ([]domain.Recipe, error) {
-	return u.recipeRepo.FetchAll()
+	return u.recipeService.GetAllRecipes()
 }
 
 func (u *recipeUseCase) GetRecipeByID(id int) (domain.Recipe, error) {
-	return u.recipeRepo.FetchByID(id)
+	return u.recipeService.GetRecipeByID(id)
 }
 
 func (u *recipeUseCase) CreateRecipe(recipe domain.Recipe) (domain.Recipe, error) {
-	return u.recipeRepo.Save(recipe)
+	return u.recipeService.CreateRecipe(recipe)
 }

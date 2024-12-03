@@ -1,32 +1,47 @@
 package repository
 
 import (
+	"github.com/jinzhu/gorm" // Or github.com/gorm.io/gorm for GORM v2
 	"github.com/rafialg11/recipe-api/internal/domain"
-	"github.com/rafialg11/recipe-api/internal/service"
 )
 
-type RecipeUseCase interface {
-	GetAllRecipes() ([]domain.Recipe, error)
-	GetRecipeByID(id int) (domain.Recipe, error)
-	CreateRecipe(recipe domain.Recipe) (domain.Recipe, error)
+type RecipeRepository interface {
+	FetchAll() ([]domain.Recipe, error)
+	FetchByID(id int) (domain.Recipe, error)
+	Save(recipe domain.Recipe) (domain.Recipe, error)
 }
 
-type recipeUseCase struct {
-	recipeService service.RecipeService
+type recipeRepository struct {
+	DB *gorm.DB
 }
 
-func NewRecipeUseCase(service service.RecipeService) RecipeUseCase {
-	return &recipeUseCase{recipeService: service}
+// NewRecipeRepository initializes the repository with an existing database connection
+func NewRecipeRepository(db *gorm.DB) RecipeRepository {
+	return &recipeRepository{DB: db}
 }
 
-func (u *recipeUseCase) GetAllRecipes() ([]domain.Recipe, error) {
-	return u.recipeService.GetAllRecipes()
+// FetchAll retrieves all recipes from the database
+func (r *recipeRepository) FetchAll() ([]domain.Recipe, error) {
+	var recipes []domain.Recipe
+	if err := r.DB.Find(&recipes).Error; err != nil {
+		return nil, err
+	}
+	return recipes, nil
 }
 
-func (u *recipeUseCase) GetRecipeByID(id int) (domain.Recipe, error) {
-	return u.recipeService.GetRecipeByID(id)
+// FetchByID retrieves a recipe by its ID
+func (r *recipeRepository) FetchByID(id int) (domain.Recipe, error) {
+	var recipe domain.Recipe
+	if err := r.DB.First(&recipe, id).Error; err != nil {
+		return domain.Recipe{}, err
+	}
+	return recipe, nil
 }
 
-func (u *recipeUseCase) CreateRecipe(recipe domain.Recipe) (domain.Recipe, error) {
-	return u.recipeService.CreateRecipe(recipe)
+// Save persists a new recipe to the database
+func (r *recipeRepository) Save(recipe domain.Recipe) (domain.Recipe, error) {
+	if err := r.DB.Create(&recipe).Error; err != nil {
+		return domain.Recipe{}, err
+	}
+	return recipe, nil
 }
