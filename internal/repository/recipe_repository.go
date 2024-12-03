@@ -1,4 +1,4 @@
-package usecase
+package repository
 
 import (
 	"github.com/rafialg11/recipe-api/internal/domain"
