@@ -1,14 +1,12 @@
 package repository
 
 import (
-	"github.com/jinzhu/gorm" // Or github.com/gorm.io/gorm for GORM v2
+	"github.com/jinzhu/gorm"
 	"github.com/rafialg11/recipe-api/internal/domain"
 )
 
 type RecipeRepository interface {
-	FetchAll() ([]domain.Recipe, error)
-	FetchByID(id int) (domain.Recipe, error)
-	Save(recipe domain.Recipe) (domain.Recipe, error)
+	CreateRecipe(recipe domain.Recipe) (domain.Recipe, error)
 }
 
 type recipeRepository struct {
@@ -39,7 +37,7 @@ func (r *recipeRepository) FetchByID(id int) (domain.Recipe, error) {
 }
 
 // Save persists a new recipe to the database
-func (r *recipeRepository) Save(recipe domain.Recipe) (domain.Recipe, error) {
+func (r *recipeRepository) CreateRecipe(recipe domain.Recipe) (domain.Recipe, error) {
 	if err := r.DB.Create(&recipe).Error; err != nil {
 		return domain.Recipe{}, err
 	}

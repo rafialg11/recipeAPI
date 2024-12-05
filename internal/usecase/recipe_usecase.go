@@ -1,8 +1,8 @@
 package usecase
 
 import (
+	service "github.com/rafialg11/recipe-api/internal/application/services"
 	"github.com/rafialg11/recipe-api/internal/domain"
-	"github.com/rafialg11/recipe-api/internal/service"
 )
 
 type RecipeUseCase interface {

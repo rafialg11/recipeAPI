@@ -7,6 +7,7 @@ import (
 	"github.com/jinzhu/gorm" // Or use github.com/gorm.io/gorm for newer versions of GORM
 	_ "github.com/lib/pq"    // PostgreSQL driver
 	"github.com/rafialg11/recipe-api/internal/config"
+	"github.com/rafialg11/recipe-api/internal/domain"
 )
 
 // ConnectDB initializes the database connection and returns a *gorm.DB object
@@ -23,7 +24,7 @@ func ConnectDB(cfg *config.Config) (*gorm.DB, error) {
 	}
 
 	// Auto migrate the database schema
-	db.AutoMigrate()
+	db.Debug().AutoMigrate(&domain.Recipe{})
 
 	return db, nil
 }

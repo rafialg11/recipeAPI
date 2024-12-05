@@ -18,7 +18,7 @@ type Config struct {
 }
 
 // LoadConfig loads the configuration from environment variables
-func LoadConfig() *Config {
+func LoadConfig() (*Config, error) {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -60,5 +60,5 @@ func LoadConfig() *Config {
 		DbUser:     dbUser,
 		DbPassword: dbPassword,
 		DbName:     dbName,
-	}
+	}, nil
 }

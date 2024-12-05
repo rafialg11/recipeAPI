@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/rafialg11/recipe-api/internal/domain"
-	"github.com/rafialg11/recipe-api/internal/repository"
+	"github.com/rafialg11/recipe-api/internal/infrastructure/repository"
 )
 
 type RecipeService interface {

@@ -4,17 +4,20 @@ import (
 	"log"
 
 	"github.com/labstack/echo/v4"
+	service "github.com/rafialg11/recipe-api/internal/application/services"
 	"github.com/rafialg11/recipe-api/internal/config"
 	"github.com/rafialg11/recipe-api/internal/database"
 	"github.com/rafialg11/recipe-api/internal/delivery/router"
-	"github.com/rafialg11/recipe-api/internal/repository"
-	"github.com/rafialg11/recipe-api/internal/service"
+	"github.com/rafialg11/recipe-api/internal/infrastructure/repository"
 	"github.com/rafialg11/recipe-api/internal/usecase"
 )
 
 func main() {
 	// Load configuration
-	cfg := config.LoadConfig()
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		log.Fatal("Error loading configuration:", err)
+	}
 
 	// Initialize the database connection
 	db, err := database.ConnectDB(cfg)
